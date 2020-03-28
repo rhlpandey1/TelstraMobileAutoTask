@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+<parameter name="tvSize" value="65 inch tv"/>
+<parameter name="tvName" value="Samsung"/>
+<parameter name="price" value="700$"/>
+<parameter name="description" value="Samsung"/>
+<parameter name="modelNo" value="Samsung"/>
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="ebaydemo.AddToCart"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
