@@ -3,6 +3,7 @@ package ebaydemo;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.remote.CapabilityType;
@@ -25,6 +26,7 @@ public class AddToCart {
 	@BeforeTest
 	public void launchApp() throws IOException
 	{
+		System.out.println(this.getClass());
 		DesiredCapabilities capability = new DesiredCapabilities();
 		//OS Name
 		String device=Utilities.getProperty("device");
@@ -45,10 +47,12 @@ public class AddToCart {
 		capability.setCapability(Constants.CAPS_APP_ACTIVITY, appActivity);
 		String url=Utilities.getProperty("URL");
 		driver = new AndroidDriver<MobileElement>(new URL(url), capability);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
-	@Parameters({"tvSize","tvName","price","description","modelNo"})
+	//@Parameters({"tvSize","tvName","price","description","modelNo"})
 	@Test
-	public void addToCartOperation(String tvSize,String tvName,String price,String description,String modelNo) throws InterruptedException
+	//public void addToCartOperation(String tvSize,String tvName,String price,String description,String modelNo) throws InterruptedException
+	public void addToCartOperation() throws InterruptedException
 	{
 		EbayPageObject ebPage=new EbayPageObject(driver);
 		log.info("Inside add to cart");
@@ -72,13 +76,14 @@ public class AddToCart {
 	//	AndroidElement textboxUserName=driver.findElement(By.id("com.ebay.mobile:id/button_classic"));
 		
 		try {
-			log.info(tvSize);
 			List<String> list=Utilities.getData("tesData.xlsx", "ebay", "TC_01");
 			String item=list.get(1);
 			ebPage.searchItem(item);
+			ebPage.selectItemAndAddToCart(list.get(2),list.get(5));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	@AfterTest
 	public void closeBrowser()
