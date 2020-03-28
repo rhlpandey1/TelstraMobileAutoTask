@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.Dimension;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -122,5 +123,14 @@ public class Utilities {
 		}
 		return list;
 	}
+	public static void scrollDown(AndroidDriver<MobileElement> driver) {
+		Dimension dimens = driver.manage().window().getSize();
+		int x = (int) (dimens.getWidth() * 0.5);
+		int startY = (int) (dimens.getHeight() * 0.5);
+		int endY = (int) (dimens.getHeight() * 0.2);
+		// lest say if above code calculated correct scroll area as per your device then just add static loop to scroll to no of times you want to scroll
+		for (int i=0;i<5;i++)
+		driver.swipe(x, startY, x, endY, 800);
+		}
 	    
 }

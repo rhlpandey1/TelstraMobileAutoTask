@@ -3,7 +3,6 @@ package com.pageObjects;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,20 +11,24 @@ import org.testng.Assert;
 import ebaydemo.EbayMobileAutomation.utils.Utilities;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class EbayPageObject {
 	   private AndroidDriver<MobileElement> driver;
+	   //Constructor(default)
 	    public EbayPageObject() {
 	    }
+	    //Constructor(parameterized)
 	    public EbayPageObject(AndroidDriver<MobileElement> driver) {
 	        this.driver = driver;
 	        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	    }
+	    /*-----log-------*/
 	    public static Logger log = Logger.getLogger(EbayPageObject.class);
+	    
+	    /*-----Locators-------*/
 	    @AndroidFindBy(id = "com.ebay.mobile:id/button_sign_in")
 	    private MobileElement buttonSignIn;
 	    @AndroidFindBy(id = "com.ebay.mobile:id/button_classic")
@@ -54,6 +57,10 @@ public class EbayPageObject {
 	    @AndroidFindBy(id = "com.ebay.mobile:id/textview_item_title")
 	    private List<MobileElement> listOfTvs;
 	    
+	    /***-------Page methods----------***/
+	    /**
+	     * this method will click on sign in
+	     */
 	    public void clickOnSignIn()
 	    {
 	    	WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -61,6 +68,9 @@ public class EbayPageObject {
 			buttonSignIn.click();
 			log.info("Clicked on sign in button");
 	    }
+	    /**
+	     * this method will click on User name button
+	     */
 	    public void clickOnUserName()
 	    {
 	    	WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -78,12 +88,21 @@ public class EbayPageObject {
 	    	textboxPassword.sendKeys(password);
 	    	buttonSignInSubmit.click();
 	    }
+	    /**
+	     * combined meethods to create sign in functionality
+	     * @param userName
+	     * @param password
+	     */
 	    public void SignIn(String userName,String password)
 	    {
 	    	clickOnSignIn();
 	    	clickOnUserName();
 	    	enterUserNameAndPassword(userName,password);
 	    }
+	    /**
+	     * searching the item
+	     * @param item
+	     */
 	    public void searchItem(String item)
 	    {
 				WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -106,6 +125,11 @@ public class EbayPageObject {
 				driver.pressKeyCode(AndroidKeyCode.ENTER);
 	    	
 	    }
+	    /**
+	     * method to add the item to the cart
+	     * @param itemName
+	     * @param modelNo
+	     */
 	    public void selectItemAndAddToCart(String itemName,String modelNo)
 	    {
 	    	log.info("");
@@ -114,6 +138,7 @@ public class EbayPageObject {
 			//driver.tap(1,134,526,1);
 	    	//	saveText.get(1).click();
 	    //	TouchActions action = new TouchActions(driver);
+	    	Utilities.scrollDown(driver);
 	    	for(MobileElement ie:listOfTvs)
 	    	{
 	    		if(ie.getText().contains(modelNo))
@@ -124,6 +149,9 @@ public class EbayPageObject {
 	    	    	ie.click();
 	    		}
 	    	}
+	    	wait.until(ExpectedConditions.elementToBeClickable(buttonAddToCart));
+	    	Assert.assertEquals(itemNameOnAddToCartPage.getText(), itemName);
+	    	//Assert.assertEquals(itemNameOnAddToCartPage.getText(), itemName);
 	    }
 	    
 	    
