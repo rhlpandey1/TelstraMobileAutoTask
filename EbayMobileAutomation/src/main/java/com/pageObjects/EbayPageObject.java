@@ -2,7 +2,8 @@ package com.pageObjects;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,8 +27,7 @@ public class EbayPageObject {
 	        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	    }
 	    /*-----log-------*/
-	    public static Logger log = Logger.getLogger(EbayPageObject.class);
-	    
+	    private static Logger log=LogManager.getLogger(EbayPageObject.class.getName());
 	    /*-----Locators-------*/
 	    @AndroidFindBy(id = "com.ebay.mobile:id/button_sign_in")
 	    private MobileElement buttonSignIn;

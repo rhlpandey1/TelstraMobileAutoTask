@@ -7,7 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,7 +22,7 @@ import io.appium.java_client.android.AndroidDriver;
 
 
 public class Utilities {
-	public static Logger log = Logger.getLogger(Utilities.class);
+	 private static Logger log=LogManager.getLogger(Utilities.class.getName());
 	/*
 	 * This method is used to get the property values from .properties file
 	 */
@@ -96,7 +97,7 @@ public class Utilities {
 					 //increasing the count to get the particular column where we have TC cell value
 					 count++;
 				 }
-				 System.out.println(column);
+				 log.info(column);
 				 //we are iterating all the rows again
 				 while(rows.hasNext())
 				 {
