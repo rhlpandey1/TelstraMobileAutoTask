@@ -1,5 +1,6 @@
 package ebaydemo;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -18,13 +19,37 @@ import com.pageObjects.EbayPageObject;
 import ebaydemo.EbayMobileAutomation.utils.Utilities;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 import ebaydemo.EbayMobileAutomation.utils.*;
 
 public class AddToCart {
 	AndroidDriver<MobileElement> driver;
 	private static Logger log=LogManager.getLogger(AddToCart.class.getName());
 	@BeforeTest
+	
+	//Using apk file from Project
 	public void launchApp() throws IOException
+	{
+		log.info(this.getClass());
+		File f=new File("Amazon Shopping Search Find Ship and Save_v20.6.0.100_apkpure.com.apk");
+		
+		DesiredCapabilities capability = new DesiredCapabilities();
+		//OS Name
+		String device=Utilities.getProperty("device");
+		capability.setCapability(Constants.CAPS_DEVICE,device);
+		//Mobile OS version.
+		String version=Utilities.getProperty("version");
+		capability.setCapability(MobileCapabilityType.VERSION, version);
+		//set up device name
+		String deviceName=Utilities.getProperty("deviceName");
+		capability.setCapability(MobileCapabilityType.DEVICE_NAME,deviceName);
+		capability.setCapability(MobileCapabilityType.APP,f.getAbsolutePath());
+		String url=Utilities.getProperty("URL");
+		driver = new AndroidDriver<MobileElement>(new URL(url), capability);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+	//using pre-installed app
+	/*public void launchApp() throws IOException
 	{
 		log.info(this.getClass());
 		DesiredCapabilities capability = new DesiredCapabilities();
@@ -33,12 +58,12 @@ public class AddToCart {
 		capability.setCapability(Constants.CAPS_DEVICE,device);
 		//Mobile OS version.
 		String version=Utilities.getProperty("version");
-		capability.setCapability(CapabilityType.VERSION, version);
+		capability.setCapability(MobileCapabilityType.VERSION, version);
 		//set up device name
 		String deviceName=Utilities.getProperty("deviceName");
-		capability.setCapability(Constants.CAPS_DEVICE_NAME,deviceName);
+		capability.setCapability(MobileCapabilityType.DEVICE_NAME,deviceName);
 		String platformName=Utilities.getProperty("platformName");
-		capability.setCapability(Constants.CAPS_PLATFORM_NAME,platformName);
+		capability.setCapability(MobileCapabilityType.PLATFORM_NAME,platformName);
 		//set the package name of the app
 		String appPackage=Utilities.getProperty("appPackage");
 		capability.setCapability(Constants.CAPS_APP_PACKAGE, appPackage);
@@ -48,7 +73,7 @@ public class AddToCart {
 		String url=Utilities.getProperty("URL");
 		driver = new AndroidDriver<MobileElement>(new URL(url), capability);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-	}
+	}*/
 	//@Parameters({"tvSize","tvName","price","description","modelNo"})
 	@Test
 	//public void addToCartOperation(String tvSize,String tvName,String price,String description,String modelNo) throws InterruptedException
